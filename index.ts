@@ -9,12 +9,17 @@ let nextOrderId = 0;
 let cashInRegister = 100;
 const orderQueue = [];
 
-function addNewPizza(pizzaObj) {
+type Pizza = {
+  name: string;
+  price: number;
+};
+
+function addNewPizza(pizzaObj: Pizza) {
   menu.push(pizzaObj);
   return;
 }
 
-function placeOrder(pizzaName) {
+function placeOrder(pizzaName: string) {
   const selectedPizza = menu.find((pizzaObj) => pizzaObj.name === pizzaName);
 
   if (!selectedPizza) {
