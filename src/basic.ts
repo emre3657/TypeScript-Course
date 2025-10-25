@@ -11,7 +11,7 @@ type Person = {
   name: string;
   age: number;
   isStudent: boolean;
-  address: Address;
+  address?: Address;
 };
 
 type Address = {
@@ -24,11 +24,6 @@ const person1: Person = {
   name: "Salih",
   age: 55,
   isStudent: false,
-  address: {
-    street: "Yazgülü",
-    city: "İstanbul",
-    country: "Türkiye",
-  },
 };
 
 const person2: Person = {
@@ -41,3 +36,9 @@ const person2: Person = {
     country: "Türkiye",
   },
 };
+
+function displayInfo(person: Person) {
+  console.log(`${person.name} lives at ${person.address?.street}`);
+}
+
+displayInfo(person1);

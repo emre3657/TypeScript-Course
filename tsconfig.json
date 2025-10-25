@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    /* Temel çıkış ayarları */
+    "target": "ES6", // Derlenecek JS sürümü
+    "module": "ES6", // Modül sistemi (browser için ES6)
+    "outDir": "./dist", // Derlenen JS dosyaları buraya gider
+    "rootDir": "./src", // TS kaynakları buradan okunur
+
+    /* Katı (strict) kurallar */
+    "strict": true, // Tüm katı tip denetimlerini açar
+    "noImplicitAny": true, // any tipi uyarısı verir
+    "strictNullChecks": true, // null/undefined kontrolleri
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+
+    /* Modül çözümleme */
+    "moduleResolution": "node", // Node tarzı çözümleme
+    "esModuleInterop": true, // import/export uyumluluğu
+    "forceConsistentCasingInFileNames": true, // Dosya isimlerinde büyük/küçük farkını kontrol eder
+
+    /* Kaynak haritaları */
+    "sourceMap": true, // .map dosyaları üret (debug için)
+
+    /* Tarayıcı uyumluluğu için */
+    "lib": ["DOM", "ES6"], // DOM + ES6 özelliklerini dahil et
+
+    /* Gelişmiş ayarlar */
+    "skipLibCheck": true, // node_modules içi tip kontrolünü atla (derlemeyi hızlandırır)
+    "resolveJsonModule": true, // .json import edebilmek için
+    "allowJs": false, // .js dosyalarını derleme
+    "noEmitOnError": false // Hata varsa .js üretmesin
+  },
+  "include": ["src/**/*"], // Derlenecek dosyalar
+  "exclude": ["node_modules", "dist"] // Hariç tutulan klasörler
+}
