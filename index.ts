@@ -33,7 +33,7 @@ function placeOrder(pizzaName) {
   return newOrder;
 }
 
-function completeOrder(orderId) {
+function completeOrder(orderId: number) {
   const order = orderQueue.find((order) => order.id === orderId);
   if (!order) {
     console.log(`No order with id: ${orderId}`);
