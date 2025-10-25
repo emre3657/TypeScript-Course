@@ -14,8 +14,9 @@ function addNewPizza(pizzaObj) {
   return;
 }
 
-function placeOrder(name) {
-  const selectedPizza = menu.find((pizzaObj) => pizzaObj.name === name);
+function placeOrder(pizzaName) {
+  const selectedPizza = menu.find((pizzaObj) => pizzaObj.name === pizzaName);
+
   if (!selectedPizza) {
     console.log("Invalid pizza name");
     return;
