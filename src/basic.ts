@@ -42,3 +42,7 @@ function displayInfo(person: Person) {
 }
 
 displayInfo(person1);
+
+// Typing arrays
+let ages: number[] = [100, 101];
+let people: Person[] = [person1, person2];
