@@ -51,3 +51,12 @@ let people: Person[] = [person1, person2];
 // Typscript infers type automaticly. Type of const variable equals to its value, type of let variable can be built-in(string, number vs.) or its value as const's type is.
 let myName1 = "emre";
 const myName2 = "emre";
+
+// Unions
+type User = {
+  username: string;
+  role: "guest" | "member" | "admin";
+};
+
+type UserRole = "guest" | "member" | "admin";
+let userRole: UserRole = "member";
