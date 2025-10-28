@@ -55,6 +55,20 @@ function completeOrder(orderId: number) {
   return order;
 }
 
+function getPizzaDetail(identifier: number | string) {
+  if (typeof identifier === "number")
+    return menu.find((pizzaObj) => pizzaObj.id === identifier);
+  else if (typeof identifier === "string")
+    return menu.find(
+      (pizzaObj) =>
+        pizzaObj.name.toLocaleLowerCase() === identifier.toLocaleLowerCase()
+    );
+  else
+    throw new TypeError(
+      "Parameter 'identifier' must be either a string or a number"
+    );
+}
+
 // Add new pizzas
 addNewPizza({ id: 5, name: "Chicken Bacon Ranch", price: 12 });
 addNewPizza({ id: 6, name: "BBQ Chicken", price: 12 });
@@ -67,6 +81,10 @@ completeOrder(1);
 placeOrder("Anchovy");
 placeOrder("Viggie");
 completeOrder(2);
+
+// Get pizza detail
+console.log(getPizzaDetail(1));
+console.log(getPizzaDetail("Spicy Sausage"));
 
 // console log
 console.log("Menu", menu);
