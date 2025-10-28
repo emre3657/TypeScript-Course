@@ -46,3 +46,8 @@ displayInfo(person1);
 // Typing arrays
 let ages: number[] = [100, 101];
 let people: Person[] = [person1, person2];
+
+// Literal types
+// Typscript infers type automaticly. Type of const variable equals to its value, type of let variable can be built-in(string, number vs.) or its value as const's type is.
+let myName1 = "emre";
+const myName2 = "emre";
