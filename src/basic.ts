@@ -76,3 +76,11 @@ function fetchUserDetails(username: string): User {
   }
   return user;
 }
+
+// TS-specific types:
+// any
+/*
+  Do not use 'any'. It is against TypeScript logic.
+  Just one use case could be:
+  Just transtionig js code base to ts temporarily
+*/
