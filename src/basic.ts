@@ -53,10 +53,26 @@ let myName1 = "emre";
 const myName2 = "emre";
 
 // Unions
+type UserRole = "guest" | "member" | "admin";
+
 type User = {
   username: string;
-  role: "guest" | "member" | "admin";
+  role: UserRole;
 };
 
-type UserRole = "guest" | "member" | "admin";
 let userRole: UserRole = "member";
+
+// Function return types
+const users: User[] = [
+  { username: "emre", role: "admin" },
+  { username: "ali", role: "member" },
+  { username: "onur", role: "guest" },
+];
+
+function fetchUserDetails(username: string): User {
+  const user = users.find((userObj) => userObj.username === username);
+  if (!user) {
+    throw new Error(`User not found with username ${username}`);
+  }
+  return user;
+}
