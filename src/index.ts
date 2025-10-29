@@ -55,7 +55,7 @@ function completeOrder(orderId: number) {
   return order;
 }
 
-function getPizzaDetail(identifier: number | string) {
+function getPizzaDetail(identifier: number | string): Pizza | undefined {
   if (typeof identifier === "number")
     return menu.find((pizzaObj) => pizzaObj.id === identifier);
   else if (typeof identifier === "string")
