@@ -90,3 +90,33 @@ function fetchUserDetails(username: string): User {
   void type is that a function do not have a returning value (e.g. log, delete)
   function will not use return value in the future
 */
+
+// Partial @UtilityTypes
+type AnotherUser = {
+  id: number;
+  username: string;
+  role: "member" | "contributor" | "admin";
+};
+type UpdatedUser = Partial<AnotherUser>;
+
+const anotherUsers: AnotherUser[] = [
+  { id: 1, username: "john_doe", role: "member" },
+  { id: 2, username: "jane_smith", role: "contributor" },
+  { id: 3, username: "alice_jones", role: "admin" },
+  { id: 4, username: "charlie_brown", role: "member" },
+];
+
+function updateUser(id: number, updates: UpdatedUser): void {
+  const user = anotherUsers.find((userObj) => userObj.id === id);
+  if (!user) {
+    console.log(`No user found with id ${id}`);
+    return;
+  }
+  const { username, role } = updates;
+  if (username) Object.assign(user, { username });
+  if (role) Object.assign(user, { role });
+}
+
+updateUser(1, { username: "new_john_doe" });
+updateUser(4, { role: "contributor" });
+console.log(anotherUsers);
