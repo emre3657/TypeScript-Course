@@ -135,3 +135,46 @@ function addNewUser(user: Omit<AnotherUser, "id">): AnotherUser {
 
 addNewUser({ username: "emre_ekinci", role: "admin" });
 console.log(anotherUsers);
+
+// Generics ***
+/*
+  Add flexibility to existing fucntions, types, etc.
+  Act like function parameters, but for types
+  Use angle bracket syntax (<>)
+*/
+
+const gameScores = [14, 21, 33, 42, 59];
+const favoriteThings = [
+  "raindrops on roses",
+  "whiskers on kitten",
+  "bright copper kettles",
+  "warm woolen mittens",
+];
+const voters = [
+  { name: "Alice", age: 42 },
+  { name: "Bob", age: 77 },
+];
+
+function getLastItem<T>(array: T[]): T | undefined {
+  return array[array.length - 1];
+}
+
+console.log(getLastItem(gameScores));
+console.log(getLastItem(favoriteThings));
+console.log(getLastItem(voters));
+
+// Generic practice
+function addToArray<T>(array: T[], item: T): T[] | undefined {
+  if (!array) return;
+  array.push(item);
+  return array;
+}
+// usage
+addToArray(menu, { id: nextPizzaId++, name: "Chicken Bacon Ranch", price: 12 });
+addToArray<Order>(orderQueue, {
+  id: nextOrderId++,
+  pizza: menu[2],
+  status: "completed",
+});
+
+// Course finish here
