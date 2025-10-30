@@ -99,11 +99,13 @@ type AnotherUser = {
 };
 type UpdatedUser = Partial<AnotherUser>;
 
+let nextUserId = 1;
+
 const anotherUsers: AnotherUser[] = [
-  { id: 1, username: "john_doe", role: "member" },
-  { id: 2, username: "jane_smith", role: "contributor" },
-  { id: 3, username: "alice_jones", role: "admin" },
-  { id: 4, username: "charlie_brown", role: "member" },
+  { id: nextUserId++, username: "john_doe", role: "member" },
+  { id: nextUserId++, username: "jane_smith", role: "contributor" },
+  { id: nextUserId++, username: "alice_jones", role: "admin" },
+  { id: nextUserId++, username: "charlie_brown", role: "member" },
 ];
 
 function updateUser(id: number, updates: UpdatedUser): void {
@@ -119,4 +121,17 @@ function updateUser(id: number, updates: UpdatedUser): void {
 
 updateUser(1, { username: "new_john_doe" });
 updateUser(4, { role: "contributor" });
+// console.log(anotherUsers);
+
+// Omit @UtilityTypes
+function addNewUser(user: Omit<AnotherUser, "id">): AnotherUser {
+  const newUser = {
+    id: nextUserId++,
+    ...user,
+  };
+  anotherUsers.push(newUser);
+  return newUser;
+}
+
+addNewUser({ username: "emre_ekinci", role: "admin" });
 console.log(anotherUsers);
