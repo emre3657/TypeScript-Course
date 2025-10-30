@@ -37,7 +37,7 @@ const person2: Person = {
   },
 };
 
-function displayInfo(person: Person) {
+function displayInfo(person: Person): void {
   console.log(`${person.name} lives at ${person.address?.street}`);
 }
 
@@ -83,4 +83,10 @@ function fetchUserDetails(username: string): User {
   Do not use 'any'. It is against TypeScript logic.
   Just one use case could be:
   Just transtionig js code base to ts temporarily
+*/
+
+// void
+/*
+  void type is that a function do not have a returning value (e.g. log, delete)
+  function will not use return value in the future
 */
