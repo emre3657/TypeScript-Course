@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     /* Temel çıkış ayarları */
-    "target": "ES6", // Derlenecek JS sürümü
+    "target": "ES2019", // Derlenecek JS sürümü
     "module": "ES6", // Modül sistemi (browser için ES6)
+    /* Tarayıcı uyumluluğu için */
+    "lib": ["DOM", "ES2019"], // DOM + ES6 özelliklerini dahil et
     "outDir": "./dist", // Derlenen JS dosyaları buraya gider
     "rootDir": "./src", // TS kaynakları buradan okunur
 
@@ -20,9 +22,6 @@
 
     /* Kaynak haritaları */
     "sourceMap": true, // .map dosyaları üret (debug için)
-
-    /* Tarayıcı uyumluluğu için */
-    "lib": ["DOM", "ES6"], // DOM + ES6 özelliklerini dahil et
 
     /* Gelişmiş ayarlar */
     "skipLibCheck": true, // node_modules içi tip kontrolünü atla (derlemeyi hızlandırır)
