@@ -14,6 +14,14 @@ let nextOrderId = 1;
 let nextPizzaId = 1;
 let cashInRegister = 100;
 
+function getNextOrderId() {
+  return nextOrderId++;
+}
+
+function getNextPizzaId() {
+  return nextPizzaId++;
+}
+
 const menu: Pizza[] = [
   { id: nextPizzaId++, name: "Margherita", price: 8 },
   { id: nextPizzaId++, name: "Pepperoni", price: 10 },
@@ -96,3 +104,5 @@ console.log(getPizzaDetail("Spicy Sausage"));
 console.log("Menu", menu);
 console.log("Cash in register", cashInRegister);
 console.log("Order queue", orderQueue);
+
+export { menu, orderQueue, getNextOrderId, getNextPizzaId, Order };

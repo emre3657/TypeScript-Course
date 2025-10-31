@@ -1,3 +1,11 @@
+import {
+  menu,
+  orderQueue,
+  getNextOrderId,
+  getNextPizzaId,
+  Order,
+} from "./index";
+
 // Obligatory types
 let myName: string = "Bob";
 let numberOfWheels: number = 4;
@@ -171,9 +179,13 @@ function addToArray<T>(array: T[], item: T): T[] | undefined {
   return array;
 }
 // usage
-addToArray(menu, { id: nextPizzaId++, name: "Chicken Bacon Ranch", price: 12 });
+addToArray(menu, {
+  id: getNextPizzaId(),
+  name: "Chicken Bacon Ranch",
+  price: 12,
+});
 addToArray<Order>(orderQueue, {
-  id: nextOrderId++,
+  id: getNextOrderId(),
   pizza: menu[2],
   status: "completed",
 });
