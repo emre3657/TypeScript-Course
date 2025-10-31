@@ -2,7 +2,7 @@
   "compilerOptions": {
     /* Temel çıkış ayarları */
     "target": "ES2019", // Derlenecek JS sürümü
-    "module": "ES6", // Modül sistemi (browser için ES6)
+    "module": "nodenext", // Modül sistemi (browser için ES6)
     /* Tarayıcı uyumluluğu için */
     "lib": ["DOM", "ES2019"], // DOM + ES6 özelliklerini dahil et
     "outDir": "./dist", // Derlenen JS dosyaları buraya gider
@@ -16,7 +16,7 @@
     "strictBindCallApply": true,
 
     /* Modül çözümleme */
-    "moduleResolution": "node", // Node tarzı çözümleme
+    "moduleResolution": "nodenext", // Node tarzı çözümleme
     "esModuleInterop": true, // import/export uyumluluğu
     "forceConsistentCasingInFileNames": true, // Dosya isimlerinde büyük/küçük farkını kontrol eder
 

@@ -4,7 +4,7 @@ import {
   getNextOrderId,
   getNextPizzaId,
   Order,
-} from "./index";
+} from "./index.js";
 
 // Obligatory types
 let myName: string = "Bob";
