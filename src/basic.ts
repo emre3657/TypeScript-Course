@@ -80,9 +80,10 @@ function fetchUserDetails(username: string): User {
 // TS-specific types:
 // any
 /*
-  Do not use 'any'. It is against TypeScript logic.
-  Just one use case could be:
-  Just transtionig js code base to ts temporarily
+  Do not use 'any'. It goes against TypeScript's type safety philosophy.
+  Use cases could be:
+  - Temporarily while transitioning a JavaScript codebase to TypeScript
+  - As the parameter type in an implementation signature of an overload
 */
 
 // void
@@ -178,3 +179,25 @@ addToArray<Order>(orderQueue, {
 });
 
 // Course finish here
+
+// My notes for some concepts:
+
+// Overload
+function printValue(value: string): void;
+function printValue(value: number): void;
+// One more use case for any type
+function printValue(value: any) {
+  if (typeof value === "number") console.log(value.toFixed(2));
+  else console.log(value.toUpperCase());
+}
+printValue(42);
+printValue("hello");
+
+/* 
+
+| Situation                                                                   | Which One to Use |
+| --------------------------------------------------------------------------- | ---------------- |
+| The same function works with different types but **shares the same logic**  | ✅ **Generic**  |
+| The same function works with different types but **has different behavior** | ✅ **Overload** |
+
+*/
