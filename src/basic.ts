@@ -213,3 +213,118 @@ printValue("hello");
 | The same function works with different types but **has different behavior** | ✅ **Overload** |
 
 */
+
+// Enums - Do not use enums, go altenative!
+/* 
+  Enum is not something that's native to JavaScript. This was actually 
+  something that TS Devs introduced pretty early on in typescript and
+  wanted to give sort of like a c-sharp object-oriented feeling to typescript.
+*/
+
+// Enum is a special structure that it creates 2 things: type and value
+/* 
+  enum Height = {
+    SHORT,
+    MIDDLE,
+    LONG,
+  }
+
+  1) type Height = 0 | 1 | 2 | Height.SHORT | Height.MIDDLE | Height.LONG;  *type exits in compiler time* 
+     
+  2) const Height = {                                                       *value(object) exits in run time* 
+      0: "SHORT",
+      1: "MIDDLE",
+      2: "LONG",
+      SHORT: 0,
+      MIDDLE: 1,
+      LONG: 2,
+    };
+
+    Note*: Unlike types and interfaces, enums live at runtime, which makes them an exception in TypeScript’s type system 
+*/
+
+// Enums can be numeric or string:
+
+// 1) Number enums
+// The default enum assigns a value(starting from 0) to each member
+enum LogLevel {
+  DEBUG,
+  WARNING,
+  ERROR,
+}
+
+// type LogLevel = 0 | 1 | 2 | LogLevel.DEBUG | LogLevel.WARNING | LogLevel.ERROR;
+
+/*
+  Transpiled enum:
+  const LogLevel = {
+    0: "DEBUG",
+    1: "WARNING",
+    2: "ERROR",
+    DEBUG: 0,
+    WARNING: 1,
+    ERROR: 2,
+  };
+*/
+
+console.log(Object.values(LogLevel)); // ["DEBUG", "WARNING", "ERROR", 0, 1, 2]
+
+// The actual js object is not the same as the traspiled one
+/*
+  Actual object:
+  const LogLevel = {
+    DEBUG: 0,
+    WARNING: 1,
+    ERROR: 2,
+  };
+*/
+
+// This only occurs with *numeric* enums: Bidirectional mapping - Two-ways mapping
+// This is a first annoying thing about enums is that they don't quite behave
+// exactly as you expect them to
+
+// usage - numeric enum
+function log(logLevel: LogLevel, message: string) {
+  console.log(`${logLevel}: ${message}`);
+}
+
+log(LogLevel.ERROR, "something went wrong"); // valid
+// log("ERROR", "something went wrong"); // invalid - check LogLevel type out at line 256
+log(1, "something went wrong"); // valid
+// log(12, "something went wrong"); // invalid
+
+// 2) String enums
+enum Role {
+  GUEST = "guest",
+  MEMBER = "member",
+  ADMIN = "admin",
+}
+
+// type Role = Role.GUEST | Role.MEMBER | Role.ADMIN;
+/*
+  const Role = {
+    GUEST = "guest",
+    MEMBER = "member",
+    ADMIN = "admin",
+  };
+*/
+
+console.log(Object.values(Role)); // ["guest", "member", "admin"]
+
+// The actual js object is the same as transpiled one with *string* enums
+// Unidirectional mapping - One-way mapping
+/*
+  const Role = {
+    GUEST = "guest",
+    MEMBER = "member",
+    ADMIN = "admin",
+  }
+*/
+
+// usage - string enum
+function log2(role: Role, message: string) {
+  console.log(`${role}: ${message}`);
+}
+
+log2(Role.ADMIN, "hello"); // valid
+// log2("admin", "hello"); // invalid - check Role type out at line 301
