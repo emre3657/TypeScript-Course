@@ -101,16 +101,16 @@ function fetchUserDetails(username: string): User {
 */
 
 // Partial @UtilityTypes
-type AnotherUser = {
+type User2 = {
   id: number;
   username: string;
   role: "member" | "contributor" | "admin";
 };
-type UpdatedUser = Partial<AnotherUser>;
+type UpdatedUser = Partial<User2>;
 
 let nextUserId = 1;
 
-const anotherUsers: AnotherUser[] = [
+const users2: User2[] = [
   { id: nextUserId++, username: "john_doe", role: "member" },
   { id: nextUserId++, username: "jane_smith", role: "contributor" },
   { id: nextUserId++, username: "alice_jones", role: "admin" },
@@ -118,7 +118,7 @@ const anotherUsers: AnotherUser[] = [
 ];
 
 function updateUser(id: number, updates: UpdatedUser): void {
-  const user = anotherUsers.find((userObj) => userObj.id === id);
+  const user = users2.find((userObj) => userObj.id === id);
   if (!user) {
     console.log(`No user found with id ${id}`);
     return;
@@ -130,20 +130,20 @@ function updateUser(id: number, updates: UpdatedUser): void {
 
 updateUser(1, { username: "new_john_doe" });
 updateUser(4, { role: "contributor" });
-// console.log(anotherUsers);
+// console.log(users2);
 
 // Omit @UtilityTypes
-function addNewUser(user: Omit<AnotherUser, "id">): AnotherUser {
+function addNewUser(user: Omit<User2, "id">): User2 {
   const newUser = {
     id: nextUserId++,
     ...user,
   };
-  anotherUsers.push(newUser);
+  users2.push(newUser);
   return newUser;
 }
 
 addNewUser({ username: "emre_ekinci", role: "admin" });
-console.log(anotherUsers);
+console.log(users2);
 
 // Generics ***
 /*
@@ -190,7 +190,7 @@ addToArray<Order>(orderQueue, {
   status: "completed",
 });
 
-// Course finish here
+/**************************** Course finish here ****************************/
 
 // My notes for some concepts:
 
@@ -328,3 +328,201 @@ function log2(role: Role, message: string) {
 
 log2(Role.ADMIN, "hello"); // valid
 // log2("admin", "hello"); // invalid - check Role type out at line 301
+
+/********************************************************************************/
+
+// typeof (TypeScript type operator) - used ChatGPT
+/*
+What it is:
+In type positions, typeof creates a type from a value.
+(In runtime code, typeof is the JavaScript operator returning strings like "string", but that’s different.)
+*/
+
+// Primary use-cases
+// - Generate types from objects (“source-of-truth” object → type)
+// - Take a function’s return type (via ReturnType<typeof fn>)
+// - Derive types from constants / config maps
+
+// a) Object → Type (auto-sync shape)
+const user = { name: "Alice", age: 30 } as const;
+
+type User3 = typeof user;
+// { readonly name: "Alice"; readonly age: 30 }
+// Note: as const keeps literal types. Without it you’d get { name: string; age: number }.
+
+// b) Function return type (with ReturnType)
+function makeUser(id: number) {
+  return { id, active: true };
+}
+
+type MakeUserReturn = ReturnType<typeof makeUser>;
+// { id: number; active: boolean }
+
+// c) Reusing a function type signature
+function fetchById(id: string): Promise<number> {
+  return Promise.resolve(Number(id));
+}
+
+type FetchById = typeof fetchById;
+// (id: string) => Promise<number>
+
+// keyof - used ChatGPT
+/*
+What it is:
+keyof T produces a union of property names of T as string/number/symbol literals.
+*/
+
+// Primary use-cases
+// - Key-safe generic utilities (prevent misspelled property names)
+// - Restrict valid keys for API/selector helpers
+// - Build mapped types from an existing shape
+
+// a) Key-safe getter
+type User4 = { id: string; name: string; age: number };
+
+type UserKey = keyof User4; // "id" | "name" | "age"
+
+function getValue<T, K extends keyof T>(obj: T, key: K) {
+  return obj[key];
+}
+
+const u: User4 = { id: "1", name: "Alice", age: 30 };
+getValue(u, "name"); // ok
+// getValue(u, "email"); // ❌ error: "email" is not a key of User
+
+// b) Prevent wrong property usage
+function pick<T, K extends keyof T>(obj: T, ...keys: K[]): Pick<T, K> {
+  const out = {} as Pick<T, K>;
+  for (const k of keys) out[k] = obj[k];
+  return out;
+}
+
+pick(u, "id", "age"); // ok
+// pick(u, "role");        // ❌ error
+
+// keyof + typeof (together - very common)
+// Pattern: Take an object value → turn it into a type with typeof → extract its keys with keyof.
+
+// a) Safely index a config map
+const roles = {
+  admin: 1,
+  user: 2,
+  guest: 3,
+} as const;
+
+type RoleKey = keyof typeof roles; // "admin" | "user" | "guest"
+
+function getRoleValue(key: RoleKey) {
+  return roles[key];
+}
+
+getRoleValue("admin"); // ok
+// getRoleValue("super"); // ❌ error
+
+// b) Enforce valid keys across modules
+/*
+// colors.ts
+export const colors = {
+  primary: "#0ea5e9",
+  success: "#22c55e",
+  danger: "#ef4444",
+} as const;
+
+// types.ts
+import { colors } from "./colors";
+export type ColorName = keyof typeof colors;  // "primary" | "success" | "danger"
+
+// usage.ts
+import { colors } from "./colors";
+import type { ColorName } from "./types";
+
+function getHex(name: ColorName) {
+  return colors[name];
+}
+*/
+
+// c) Exhaustive switch by keys
+const featureFlags = {
+  newUI: true,
+  betaSearch: false,
+} as const;
+
+type FlagName = keyof typeof featureFlags;
+
+function enableFlag(flag: FlagName) {
+  switch (flag) {
+    case "newUI":
+    case "betaSearch":
+      // handle…
+      break;
+    default:
+      // never happens if FlagName is exhaustive
+      const _exhaustiveCheck: never = flag;
+      return _exhaustiveCheck;
+  }
+}
+
+// “All the common ways” you’ll use them
+
+// a) With objects (catalog/config → type)
+const endpoints = {
+  users: "/api/users",
+  posts: "/api/posts",
+} as const;
+
+type Endpoints = typeof endpoints; // { readonly users: "/api/users"; ... }
+type EndpointName = keyof typeof endpoints; // "users" | "posts"
+
+function call(name: EndpointName) {
+  return fetch(endpoints[name]);
+}
+
+// b) With enums or enum-like objects
+const Status = {
+  Pending: "PENDING",
+  Done: "DONE",
+  Canceled: "CANCELED",
+} as const;
+
+type StatusCode = (typeof Status)[keyof typeof Status];
+// "PENDING" | "DONE" | "CANCELED"
+
+// c) Building mapped types from keys
+type Fields = { title: string; views: number; published: boolean };
+
+type ReadonlyFields = {
+  readonly [K in keyof Fields]: Fields[K];
+};
+// { readonly title: string; readonly views: number; readonly published: boolean }
+
+// c) Key-filtered helpers
+function hasKey<T extends object>(obj: T, key: PropertyKey): key is keyof T {
+  return key in obj;
+}
+
+// d) Mirror a function’s signature/type
+function parse(input: string): { ok: boolean; value?: number } {
+  const n = Number(input);
+  return Number.isNaN(n) ? { ok: false } : { ok: true, value: n };
+}
+
+type Parse = typeof parse; // (input: string) => { ok: boolean; value?: number }
+type ParseResult = ReturnType<typeof parse>; // { ok: boolean; value?: number }
+
+// Extra - My question: Why do we need ReturnType if typeof exists?
+
+// typeof someFunction gives you the function’s type (its parameter list and return type), not the return type alone.
+
+// To extract only the return type, you need a conditional type helper — that’s exactly what ReturnType does:
+function make(): Promise<string> {
+  return Promise.resolve("ok");
+}
+
+type Fn = typeof make;
+// type Fn = () => Promise<string>
+
+type Out = ReturnType<typeof make>;
+// type Out = Promise<string>
+
+// In short: typeof = “give me the type of this value”.
+// ReturnType = “from that function type, give me just its return type”.
