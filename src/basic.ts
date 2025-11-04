@@ -528,3 +528,27 @@ type Out = ReturnType<typeof make>;
 
 // In short: typeof = “give me the type of this value”.
 // ReturnType = “from that function type, give me just its return type”.
+
+// as const
+// Make js object immutable(constant).
+// Alternative to enums
+// TS specific syntax
+const routes = {
+  home: "/",
+  admin: "/admin",
+  users: "/users",
+} as const;
+
+const goToRoute = (route: "/" | "/admin" | "/users") => {};
+
+// with 'as const', 2 lines are valid in the below.
+goToRoute("/"); // valid
+goToRoute(routes.home); // valid, we'll take error if remove as const. Because routes.home infered as a string.
+
+// extract routes with dynamic property access
+type Route = (typeof routes)[keyof typeof routes]; // "/" | "/admin" | "/users"
+
+// Now Route can be used in multiple place, it provides to not repeat at giving tpye
+const goToRoute2 = (route: Route) => {};
+goToRoute2("/");
+goToRoute2("/admin");
