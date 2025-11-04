@@ -322,6 +322,8 @@ console.log(Object.values(Role)); // ["guest", "member", "admin"]
 */
 
 // usage - string enum
+// TS only care about run time values with type checking, but string enum(s) don't comply it
+// can only use Enum.member
 function log2(role: Role, message: string) {
   console.log(`${role}: ${message}`);
 }
