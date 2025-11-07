@@ -552,3 +552,47 @@ type Route = (typeof routes)[keyof typeof routes]; // "/" | "/admin" | "/users"
 const goToRoute2 = (route: Route) => {};
 goToRoute2("/");
 goToRoute2("/admin");
+
+// Start reading the TypeScript documentation at typescriptlang.org
+
+// Interfaces
+// An interface declaration is another way to name an object type:
+interface FullName {
+  name: string;
+  surname: string;
+}
+
+const fullName: FullName = { name: "Emre", surname: "Ekinci" };
+
+// type aliases and interfaces are very similar, the key distinction is type aliases cannot be re-opened and add new properties vs interfaces are always extendable and redeclared.
+// extends
+interface Username extends FullName {
+  username: "GoalKeeper";
+}
+
+// type aliases can just be extendable with (&) intersection, but cannot reopened and redefined. So type name must be different.
+type Animal = {
+  name: string;
+};
+// &
+type Bear = Animal & {
+  honey: boolean;
+};
+
+// Existing interface
+// OK
+interface FullName {
+  secondName?: string;
+}
+
+const fullName2: FullName = {
+  name: "Emre",
+  secondName: "Reis",
+  surname: "Ekinci",
+};
+
+// Existing type alias
+// Not allowed - Duplicate identifier 'Animal' at line 574
+type Animal = {
+  isMammal: boolean;
+};
