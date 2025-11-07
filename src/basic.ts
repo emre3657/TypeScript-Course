@@ -223,7 +223,7 @@ printValue("hello");
 
 // Enum is a special structure that it creates 2 things: type and value
 /* 
-  enum Height = {
+  enum Height {
     SHORT,
     MIDDLE,
     LONG,
@@ -606,3 +606,11 @@ type Animal = {
 
 const myCanvas = document.getElementById("main_canvas") as HTMLCanvasElement; // myCanvas: HTMLCanvasElement
 console.log(myCanvas);
+
+// Non-null Assertion Operator (Postfix !)
+// TypeScript also has a special syntax for removing null and undefined from a type without doing any explicit checking.
+// Writing ! after any expression is effectively a type assertion that the value isn’t null or undefined:
+function liveDangerously(x?: number | null) {
+  // No error
+  console.log(x!.toFixed());
+}
