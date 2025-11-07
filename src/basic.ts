@@ -596,3 +596,13 @@ const fullName2: FullName = {
 type Animal = {
   isMammal: boolean;
 };
+
+// Type assertions
+// Sometimes you will have information about the type of a value that TypeScript can’t know about.
+
+// Normally, typescript infers the types HTMLElement or null
+// But we tell typescript that ı know the environment better than you. So typescript gives you the control
+// Note: use 'as' careful. Because occur an error if returns null
+
+const myCanvas = document.getElementById("main_canvas") as HTMLCanvasElement; // myCanvas: HTMLCanvasElement
+console.log(myCanvas);
